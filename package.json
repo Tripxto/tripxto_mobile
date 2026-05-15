@@ -1,34 +1,27 @@
 {
-  "name": "tripxto-mobile",
+  "name": "tripxto-api",
   "version": "1.0.0",
-  "main": "index.ts",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "setup:brand": "node scripts/copy-brand-asset.cjs",
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web",
-    "generate:logo": "node scripts/generate-logo.cjs",
-    "generate:logo:force": "node scripts/generate-logo.cjs --force",
-    "build:fg": "node scripts/build-adaptive-fg.cjs",
-    "marketing:sync": "node scripts/sync-marketing.cjs"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "2.2.0",
-    "@react-native-community/datetimepicker": "8.6.0",
-    "expo": "~55.0.17",
-    "expo-splash-screen": "~55.0.19",
-    "expo-status-bar": "~55.0.5",
-    "react": "19.2.0",
-    "react-dom": "^19.2.0",
-    "react-native": "0.83.6",
-    "react-native-safe-area-context": "~5.6.2",
-    "react-native-web": "^0.21.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "ioredis": "^5.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5"
   },
   "devDependencies": {
-    "@types/react": "~19.2.2",
-    "jimp": "^1.6.0",
-    "typescript": "~5.9.2"
-  },
-  "private": true
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
 }
