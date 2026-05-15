@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripXTO Login</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f2f2f2;
+  margin: 0;
+}
+
+.container {
+  width: 400px;
+  margin: 100px auto;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #2d5bd1;
+}
+
+.input-box {
+  display: flex;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+.input-box span {
+  padding: 10px;
+  background: #eee;
+}
+
+.input-box input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+button {
+  margin-top: 30px;
+  background: #2d5bd1;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Login into TripXTO</h2>
+
+  <p>Enter your phone number</p>
+
+  <div class="input-box">
+    <span>+91</span>
+    <input type="text" id="phone" placeholder="9876543210">
+  </div>
+
+  <p>We’ll send you a verification code.</p>
+
+  <button onclick="sendOTP()">Get OTP</button>
+</div>
+
+<script>
+function sendOTP() {
+  const phone = document.getElementById("phone").value;
+
+  if (phone.length !== 10) {
+    alert("Enter valid phone number");
+    return;
+  }
+
+  console.log("Send OTP to:", phone);
+
+  // API CALL (future)
+  // fetch('/auth/send-otp', {...})
+
+  window.location.href = "otp.html";
+}
+</script>
+
+</body>
+</html>

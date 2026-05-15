@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f2f2f2;
+}
+
+.container {
+  width: 400px;
+  margin: 100px auto;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #2d5bd1;
+}
+
+.otp-input {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.otp-input input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.verify {
+  border: 1px solid #2d5bd1;
+}
+
+.resend {
+  background: #2d5bd1;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>OTP Verification</h2>
+
+  <p>Enter OTP</p>
+
+  <div class="otp-input">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+  </div>
+
+  <button class="verify" onclick="verifyOTP()">Verify</button>
+  <button class="resend" onclick="resendOTP()">Resend OTP</button>
+
+  <p>Didn’t receive OTP? <a href="login.html">Change Number</a></p>
+</div>
+
+<script>
+function verifyOTP() {
+  const inputs = document.querySelectorAll(".otp-input input");
+  let otp = "";
+
+  inputs.forEach(input => otp += input.value);
+
+  if (otp.length !== 6) {
+    alert("Enter full OTP");
+    return;
+  }
+
+  console.log("Verify OTP:", otp);
+
+  // API CALL (future)
+  // fetch('/auth/verify-otp')
+
+  alert("Login Success");
+}
+
+function resendOTP() {
+  console.log("Resend OTP");
+
+  // API CALL (future)
+
+  alert("OTP Sent Again");
+}
+</script>
+
+</body>
+</html>

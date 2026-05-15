@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripXto | Next-Gen Travel Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #4f46e5; --bg: #fdfdff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #0f172a; letter-spacing: -0.01em; }
+        
+        .premium-card {
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 1px 3px 0 rgba(66, 7, 230, 0.02);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-card:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        
+        
+
+        .drag-handle { cursor: grab; color: #cbd5e1; }
+        .strikethrough { text-decoration: line-through; color: #94a3b8; }
+        .collapsed-content { display: none; }
+        
+        .add-activity-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1px dashed #e2e8f0;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .add-activity-btn:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 flex justify-between items-center">
+       <div class="flex items-center gap-3">
+      <a  href="index.html" class="text-xl sm:text-2xl font-extrabold tracking-tight
+               bg-gradient-to-r from-blue-600 to-cyan-500
+               bg-clip-text text-transparent">
+        TripXto
+      </>
+    </div>
+        <div  class="flex items-center gap-4">
+            <a href="trips.html" class="text-sm font-medium text-slate-500 hover:text-slate-900 transition">Trips</a>
+           <a href="create_trip.html"> <button class="bg-slate-900 text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-indigo-600 transition-all shadow-xl shadow-slate-200">Create Trips</button>
+            </a>
+        </div>
+    </nav>
+
+    <div class="flex max-w-7xl mx-auto min-h-screen pt-8">
+        <aside class="w-64 pr-12 hidden lg:block">
+            <div class="space-y-6">
+                <div>
+                    <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Dashboard</h4>
+                    <nav class="space-y-1">
+                         <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-50 transition">Upcoming</a>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-50 transition">Ongoing</a>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:bg-slate-50 transition">History</a>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 pb-20">
+            <header class="mb-12 px-2">
+                <input id="tripTitle" type="text" class="text-5xl font-extrabold w-full bg-transparent focus:outline-none placeholder-slate-200 tracking-tighter mb-6" value="Mumbai Adventure" />
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="premium-card rounded-2xl p-5">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-3">Change Date & Duration</span>
+                        <div class="flex items-center gap-4">
+                            <input type="date" id="startDate" class="text-sm font-bold bg-slate-50 px-3 py-2 rounded-lg border-none cursor-pointer" value="2026-02-16" />
+                            <span class="text-slate-300 font-bold">→</span>
+                            <input type="date" id="endDate" class="text-sm font-bold bg-slate-50 px-3 py-2 rounded-lg border-none cursor-pointer" value="2026-02-20" />
+                        </div>
+                    </div>
+                    <div class="premium-card rounded-2xl p-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">About this trip</span>
+                            <div id="saveStatus" class="text-[9px] font-bold text-green-500 opacity-0 transition-opacity uppercase">Saved</div>
+                        </div>
+                        <div id="autoDescription" contenteditable="true" oninput="autoSaveDesc()" class="text-sm text-slate-600 leading-relaxed outline-none">
+                            A high-level overview of your upcoming trip itinerary and essentials.
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="timeline-wrapper">
+                <div class="timeline-line"></div>
+                <div id="daysContainer" class="space-y-10"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const daysContainer = document.getElementById('daysContainer');
+        const titleInput = document.getElementById('tripTitle');
+        const saveStatus = document.getElementById('saveStatus');
+
+        let trip = { days: [] };
+
+        function autoSaveDesc() {
+            saveStatus.classList.remove('opacity-0');
+            setTimeout(() => saveStatus.classList.add('opacity-0'), 1000);
+        }
+
+        function calculateDays() {
+            const start = new Date(startDateInput.value);
+            const end = new Date(endDateInput.value);
+            if (!isNaN(start) && !isNaN(end) && end >= start) {
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+                if (trip.days.length !== diffDays) {
+                    const newDays = [];
+                    for(let i = 0; i < diffDays; i++) {
+                        newDays.push(trip.days[i] || { plans: [], packing: [], notes: "", collapsed: false });
+                    }
+                    trip.days = newDays;
+                    renderDays();
+                }
+            }
+        }
+
+        function renderDays() {
+            daysContainer.innerHTML = "";
+            const start = new Date(startDateInput.value);
+
+            trip.days.forEach((day, idx) => {
+                const currentDay = new Date(start);
+                currentDay.setDate(start.getDate() + idx);
+                const dateHeader = currentDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+                const dayDiv = document.createElement('div');
+                dayDiv.className = "relative";
+                
+                const plansHTML = day.plans.map((p, pIdx) => `
+                    <div draggable="true" ondragstart="handleDragStart(${idx}, ${pIdx})" ondragover="handleDragOver(event)" ondrop="handleDrop(${idx}, ${pIdx})" class="flex gap-4 group mb-3 items-center w-full bg-slate-50/50 p-3 rounded-xl border border-transparent hover:border-indigo-100 hover:bg-white transition-all">
+                        <div class="drag-handle">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M4 2a1 1 0 110 2 1 1 0 010-2zm4 0a1 1 0 110 2 1 1 0 010-2zM4 5a1 1 0 110 2 1 1 0 010-2zm4 0a1 1 0 110 2 1 1 0 010-2zM4 8a1 1 0 110 2 1 1 0 010-2zm4 0a1 1 0 110 2 1 1 0 010-2z"/></svg>
+                        </div>
+                        
+                        <input type="text" value="${p.text}" oninput="updatePlan(${idx}, ${pIdx}, 'text', this.value)" placeholder="Activity..." class="flex-1 bg-transparent text-sm font-semibold outline-none text-slate-700" />
+                        <button onclick="removePlan(${idx}, ${pIdx})" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all">✕</button>
+                    </div>
+                `).join('');
+
+                const packHTML = day.packing.map((item, iIdx) => `
+                    <div class="flex items-center justify-between group py-1 border-b border-slate-50 last:border-0">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePack(${idx}, ${iIdx})" class="w-3.5 h-3.5 rounded text-indigo-600" />
+                            <span class="text-[12px] font-medium ${item.checked ? 'strikethrough' : 'text-slate-600'}">${item.text}</span>
+                        </div>
+                        <button onclick="removePack(${idx}, ${iIdx})" class="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-400">✕</button>
+                    </div>
+                `).join('');
+
+                dayDiv.innerHTML = `
+    <div class="day-marker-outer">
+        <div class="day-dot-container">
+            <div class="day-dot"></div>
+        </div>
+    </div>
+
+    <div class="premium-card rounded-2xl">
+        <div onclick="toggleDay(${idx})" class="p-5 cursor-pointer flex justify-between items-center">
+            <div>
+                <h3 class="text-sm font-extrabold text-slate-900">${dateHeader}</h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${day.plans.length} Scheduled Items</p>
+            </div>
+            <svg class="w-5 h-5 text-slate-300 transition-transform ${day.collapsed ? '' : 'rotate-icon'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+
+        <div class="px-6 pb-6 ${day.collapsed ? 'collapsed-content' : ''}">
+            
+            <!-- Schedule -->
+            <div class="pt-4 border-t border-slate-50">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Schedule</span>
+                </div>
+
+                <div id="plans-${idx}">${plansHTML}</div>
+
+                <button onclick="addPlan(${idx})" class="add-activity-btn mt-3 shadow-sm active:scale-95 transition-transform">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    New Activity
+                </button>
+            </div>
+
+            <!-- Packing Checklist -->
+            <div class="mt-6 pt-4 border-t border-slate-100">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-3">Packing Checklist</span>
+
+                <div id="pack-list-${idx}">${packHTML}</div>
+
+                <div class="flex gap-2 mt-3">
+                    <input type="text" id="pack-input-${idx}" placeholder="Item..." 
+                        class="flex-1 bg-slate-50 text-xs px-3 py-2 rounded-lg outline-none focus:bg-white border border-transparent focus:border-indigo-100" />
+                    <button onclick="addPackItem(${idx})" class="text-xs font-bold px-4 py-2 bg-slate-900 text-white rounded-lg">
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="mt-6 pt-4 border-t border-slate-100">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Notes</span>
+
+                <textarea 
+                    oninput="trip.days[${idx}].notes = this.value"
+                    placeholder="Address, notes, links..."
+                    class="w-full bg-slate-50 border border-transparent rounded-xl p-3 text-xs text-slate-600 h-20 resize-none outline-none focus:bg-white focus:border-indigo-100 transition-all">${day.notes || ''}</textarea>
+            </div>
+
+        </div>
+    </div>
+`;
+                daysContainer.appendChild(dayDiv);
+            });
+        }
+
+        // Logic
+        let dragSrcIdx = null, dragSrcPlanIdx = null;
+        window.handleDragStart = (d, p) => { dragSrcIdx = d; dragSrcPlanIdx = p; };
+        window.handleDragOver = (e) => e.preventDefault();
+        window.handleDrop = (d, p) => {
+            if (dragSrcIdx === d) {
+                const plans = trip.days[d].plans;
+                const [moved] = plans.splice(dragSrcPlanIdx, 1);
+                plans.splice(p, 0, moved);
+                renderDays();
+            }
+        };
+
+        window.toggleDay = (idx) => { trip.days[idx].collapsed = !trip.days[idx].collapsed; renderDays(); };
+        window.addPlan = (idx) => { trip.days[idx].plans.push({ time: "09:00", text: "" }); renderDays(); };
+        window.updatePlan = (d, p, k, v) => { trip.days[d].plans[p][k] = v; };
+        window.updateTime = (d, p, val) => { trip.days[d].plans[p].time = val; };
+        window.removePlan = (d, p) => { trip.days[d].plans.splice(p, 1); renderDays(); };
+        window.addPackItem = (idx) => {
+            const input = document.getElementById(`pack-input-${idx}`);
+            if (input.value) {
+                trip.days[idx].packing.push({ text: input.value, checked: false });
+                renderDays();
+            }
+        };
+        window.togglePack = (d, i) => { trip.days[d].packing[i].checked = !trip.days[d].packing[i].checked; renderDays(); };
+        window.removePack = (d, i) => { trip.days[d].packing.splice(i, 1); renderDays(); };
+
+        startDateInput.addEventListener('change', calculateDays);
+        endDateInput.addEventListener('change', calculateDays);
+        titleInput.addEventListener('input', calculateDays);
+
+        calculateDays();
+    </script>
+</body>
+</html>

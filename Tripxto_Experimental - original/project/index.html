@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<!--
+  TripXto marketing landing (web only).
+  This static site lives in /project and is served as the public website.
+  The React Native / Expo app (tripxto-mobile) is separate—do not embed this page inside the app.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripxto.com</title>
+
+    <meta name="description" content="TripXto is a travel planning platform that helps you organise trips, create itineraries, and travel without stress—all in one place.">
+<meta name="author" content="TripXto Technology">
+<meta name="robots" content="index, follow">
+
+<meta name="google-adsense-account" content="ca-pub-1448276480887083">
+
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="TripXto | Stress-Free Travel Planning">
+<meta property="og:description" content="Plan trips your way, keep everything organised, and travel without last-minute stress.">
+<meta property="og:image" content="https://tripxto.com/og-image.jpg">
+<meta property="og:url" content="https://tripxto.com">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="TripXto | Travel Planning Made Easy">
+<meta property="twitter:description" content="Create clear itineraries, organise plans, and enjoy stress-free travel.">
+<meta property="twitter:image" content="https://tripxto.com/og-image.jpg">
+
+<!-- Google Adsense code -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1448276480887083"
+     crossorigin="anonymous"></script>
+
+<script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
+
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TripXto",
+  "url": "https://tripxto.com",
+  "logo": "https://tripxto.com/logo.png",
+  "description": "A travel planning platform that helps people plan trips their way without stress."
+}
+</script>
+
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  const success = document.getElementById("formSuccess");
+
+  if (!form || !success) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xqalrpoj", {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (res.ok) {
+        // hide form
+        form.style.display = "none";
+
+        // show success message
+        success.style.display = "block";
+
+        // clear form fields
+        form.reset();
+
+        // restore form after 4 seconds
+        setTimeout(() => {
+          success.style.display = "none";
+          form.style.display = "block";
+        }, 5000);
+
+      } else {
+        console.error("Formspree error");
+      }
+
+    } catch (err) {
+      console.error("Submission failed", err);
+    }
+  });
+});
+</script>
+
+
+
+
+    
+
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    
+    <!-- EXTERNALIZED CSS (ONLY CHANGE) -->
+    <link rel="stylesheet" href="tripxto.css">
+
+    <link rel="canonical" href="https://tripxto.com">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+
+<body class="bg-white text-slate-900 antialiased">
+    
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-1448276480887083">
+</amp-auto-ads>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+            height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+</noscript>
+
+<div
+  class="
+    contact-badge
+    static mb-6
+    sm:relative sm:mb-8
+    lg:absolute lg:-top-5 lg:left-1/2 lg:-translate-x-1/2 lg:mb-0
+  "
+>
+  <!-- badge content -->
+</div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white shadow">
+  
+  <!-- glass layer -->
+  <div class="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-slate-200"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+
+    <!-- Brand -->
+    <div class="flex items-center gap-3">
+      <span
+        class="text-xl sm:text-2xl font-extrabold tracking-tight
+               bg-gradient-to-r from-blue-600 to-cyan-500
+               bg-clip-text text-transparent">
+        TripXto
+      </span>
+    </div>
+
+    <!-- Navigation -->
+    <div class="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-10 text-sm font-semibold text-slate-600">
+
+      <a href="#how-it-works"
+         class="relative group hover:text-blue-600 transition">
+        How It Works
+        <span
+          class="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600
+                 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <a href="#features"
+         class="relative group hover:text-blue-600 transition">
+        Features
+        <span
+          class="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600
+                 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <a href="#contact"
+         class="relative group hover:text-blue-600 transition">
+        Contact
+        <span
+          class="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600
+                 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    
+
+
+    <a href="login.html"
+     class="relative group hover:text-blue-600 transition">
+    Create Trip
+    <span
+      class="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600
+             transition-all duration-300 group-hover:w-full">
+    </span>
+  </a>
+  </div>
+
+
+  <div>
+      <a href="login.html"
+         class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        Login
+      </a>
+    </div>
+
+
+
+    
+    <!-- CTA 
+    <div class="hidden sm:flex items-center">
+      <a href="#contact"
+         class="inline-flex items-center justify-center
+                px-5 py-2.5 rounded-xl
+                bg-gradient-to-r from-blue-600 to-blue-700
+                text-white text-sm font-bold
+                shadow-lg shadow-blue-200
+                transition-all duration-300
+                hover:shadow-xl hover:-translate-y-0.5">
+        Get Early Access
+      </a>
+    </div>-->
+
+  </div>
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+
+<section class="relative pt-20 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 hero-gradient overflow-hidden">
+    <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            <div class="text-left">
+                <div class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold uppercase tracking-widest mb-6 sm:mb-8">
+                     * Reliable Planning. Stress-Free Traveling.
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-5 sm:mb-7 tracking-tight leading-[1.2]">
+                    Travel without the stress with
+                    <span class="text-blue-600">TripXto</span>
+                </h1>
+
+                <p class="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 leading-relaxed max-w-xl">
+                    TripXto turns any booking from anywhere into a smart itinerary, tracks your journey live, and helps you pack just right—so you enjoy every moment.
+                </p>
+
+                <a href="#contact"
+                   class="bg-blue-600 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-xl shadow-blue-200 inline-block text-center">
+                    Get Early Access
+                </a>
+            </div>
+
+            <div class="relative animate-float hidden lg:block">
+  <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+
+    <!-- Card Header -->
+    <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+      <div class="flex gap-1">
+        <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+        <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+        <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+      </div>
+      <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+        AI Dashboard Preview
+      </span>
+    </div>
+
+    <!-- Card Body -->
+    <div class="p-8 space-y-6">
+
+      <!-- Title + Status -->
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="text-xs font-bold text-blue-600 uppercase mb-1">
+            Upcoming Journey
+          </p>
+          <p class="text-2xl font-black text-slate-800">
+            Bengaluru Getaway
+          </p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-xs font-bold text-slate-400 uppercase">
+            Status
+          </p>
+          <p class="text-sm font-bold text-green-500 underline decoration-2 underline-offset-4">
+            Ready to Go
+          </p>
+        </div>
+      </div>
+
+      <!-- Itinerary Rows -->
+      <div class="space-y-3">
+
+        <!-- Active Row -->
+        <div class="h-12 w-full bg-blue-50 rounded-xl border-l-4 border-blue-600
+                    flex items-center px-4 justify-between">
+          <span class="text-sm font-bold">
+            Flight AI-204 Tracked
+          </span>
+          <span class="text-xs font-bold text-blue-600">
+            Syncing
+          </span>
+        </div>
+
+        <!-- Secondary Row -->
+        <div class="h-12 w-full bg-slate-50 rounded-xl border-l-4 border-slate-200
+                    flex items-center px-4 justify-between opacity-50">
+          <span class="text-sm font-bold">
+            Villa Check-in
+          </span>
+          <span class="text-xs text-slate-400">
+            Scheduled
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+
+
+
+
+
+<section id="how-it-works" class="py-20 sm:py-32 bg-white relative overflow-hidden border-b border-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-24">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent mb-4 sm:mb-6 tracking-tight">
+                How TripXto Works
+            </h2>
+            <p class="text-2xl sm:text-3xl font-bold mb-4">
+              Plan less. Enjoy more. Travel stress-free.</p>
+                
+            <p class="text-base sm:text-lg font-normal text-slate-800 leading-relaxed whitespace-nowrap">
+    Experience a seamless journey from fragmented planning to the ultimate travel experience.
+</p>
+        </div>
+
+        <div class="space-y-20 sm:space-y-32">
+
+            <!-- Step 01 -->
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 xl:gap-24">
+                <div class="flex-1 order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">
+                        Step 01: Login & Create Your Trip
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+                        Your journey starts here
+                    </h3>
+
+    <!-- Intro Text -->
+    <p class="text-slate-600 leading-relaxed mb-8 text-base sm:text-lg">
+        Log in securely and set up your trip in minutes.
+    </p>
+
+    <!-- What You Do -->
+    <div class="mb-8">
+        <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            What you do
+        </h4>
+        <p class="text-slate-600 mb-3">Just enter:</p>
+        <ul class="list-disc list-inside text-slate-600 space-y-2">
+            <li><strong>Destinations</strong> – from hill stations to hometown visits</li>
+            <li><strong>Travel dates</strong> – departure to return</li>
+            <li><strong>Activities</strong> – sightseeing, trekking, weddings, work trips</li>
+            <li><strong>Notes</strong> – anything important you don’t want to forget</li>
+        </ul>
+    </div>
+
+    <!-- What TripXto Does -->
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+        <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            What TripXto does
+        </h4>
+        <ul class="text-slate-600 space-y-3">
+            <li>• Organises everything into a clear, day-by-day timeline</li>
+            <li>
+                • Keeps all your plans in one simple view—no more searching through
+                emails, WhatsApp messages, or screenshots
+            </li>
+        </ul>
+
+        <!-- Result Highlight -->
+        <p class="mt-6 font-medium text-indigo-600">
+            Result: You always know what’s next, where to be, and when to go.
+        </p>
+    </div>
+</div>
+
+               <div class="flex-1 order-1 lg:order-2 self-start pt-8 lg:pt-12">
+    <div class="bg-slate-50 rounded-[2.5rem] p-8 lg:p-10 border border-slate-100 shadow-inner max-w-md lg:max-w-lg">
+        <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-xl border border-blue-50 transform -rotate-2 relative overflow-hidden shimmer-bg">
+            <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase">
+                Plan your Trip...
+            </p>
+            <div class="space-y-3">
+                <div class="h-4 bg-slate-100 rounded w-4/5"></div>
+                <div class="h-4 bg-slate-100 rounded w-3/5"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+            <!-- Step 02 -->
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 xl:gap-24">
+                <div class="flex-1">
+                    <div class="bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl">
+                        <div class="space-y-4">
+                            <div class="flex justify-between text-sm text-blue-400 font-bold">
+                                <span>LIVE TRACKER</span>
+                                <span>ACTIVE</span>
+                            </div>
+                            <div class="h-2 bg-white/10 rounded-full">
+                                <div class="h-full bg-blue-500 w-2/3 rounded-full"></div>
+                            </div>
+                            <p class="text-white font-bold text-sm">
+                                Monitoring travel milestones...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">
+                        Step 02: Get Smart Alerts for Your Trips
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+                        So you never miss a moment.
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-base sm:text-lg">
+        Travelling in India means many moving parts—flights, trains, hotel check-ins, family schedules. TripXto keeps you one step ahead.
+    </p>
+                   <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            You’ll get alerts for
+        </h4>
+
+        <ul class="list-disc list-inside text-slate-600 space-y-2">
+            <li><strong>Schedule reminders</strong> – flight times, train departures, hotel check-ins</li>
+            <li><strong>Travel milestones</strong> – when to leave, when you arrive</li>
+            <li><strong>Important updates</strong> – weather changes, delays</li>
+            
+        </ul>
+        <br>
+
+         <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+        <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            You stay in control
+        </h4>
+        <ul class="text-slate-600 space-y-3">
+            <li>•	Choose what alerts you want</li>
+            <li>
+                •	Decide how and when you want to be notified
+            </li>
+        </ul>
+
+        <!-- Result Highlight -->
+        <p class="mt-6 font-medium text-indigo-600">
+            Result: No last-minute rush. No misses. No mess.
+        </p>
+    </div>
+</div>
+
+
+
+
+
+
+
+                    
+                </div>
+            </div>
+
+            <!-- Step 03 -->
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 xl:gap-24">
+                <div class="flex-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">
+                        Step 03: Smart Packing Lists
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+                        Pack right, not extra.
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed mb-6 text-base sm:text-lg">
+                        Overpacking is common. Forgetting essentials is stressful. TripXto solves both.
+                    </p>
+                    
+
+           <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            How It Works For
+        </h4> 
+        <p class="text-slate-600 leading-relaxed mb-4 text-base sm:text-lg">
+                        Your packing list is created based on:
+                    </p>
+
+        <ul class="text-slate-600 space-y-3">
+            <li><strong>• Where you’re going </strong> – beach, hill station, city, village</li>
+            <li><strong>• Weather & culture </strong> – climate, dress expectations</li>
+            <li><strong>• What you’re doing </strong> – trekking, temple visits, office meetings, weddings</li>
+        </ul>
+        
+        <br>
+
+         <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+        <h4 class="text-xl font-semibold text-slate-800 mb-3">
+            What you get
+        </h4>
+        <ul class="text-slate-600 space-y-3">
+            <li><strong>• personalised checklist</strong> – for your exact trip</li>
+            <li><strong>• Smart suggestions </strong> – so you pack only what you need</li>
+            
+        </ul>
+                </div></div>
+
+                
+
+                
+
+
+                <br>
+                <br>
+                <div class="flex-1">
+                    <div class="bg-white border-2 border-slate-100 p-8 rounded-[2.5rem] shadow-xl">
+                        <h4 class="font-black text-slate-800 mb-4 text-xl">
+                            Smart Gear List
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 text-sm text-slate-500">
+                                <div class="w-4 h-4 rounded border-2 border-blue-600"></div>
+                                Rain Jacket (Forecast: Rainy)
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-500">
+                                <div class="w-4 h-4 rounded border-2 border-blue-600"></div>
+                                Universal Power Adapter
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    
+</section>
+
+
+<section id="features"
+  class="relative py-24 sm:py-32 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden">
+
+  <!-- ambient background -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-32 left-1/4 w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-32 right-1/4 w-[500px] h-[500px] bg-indigo-200/40 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+
+    <!-- Header -->
+    <div class="max-w-3xl mx-auto text-center mb-20">
+      
+
+      <h2
+        class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent mb-4 sm:mb-6 tracking-tight">
+        Everything You Need for Effortless Travel
+      </h2>
+       
+      <p class="text-base sm:text-lg font-normal text-slate-800 leading-relaxed whitespace-nowrap">
+    TripXto helps you plan, track, and manage your trips in one simple, seamless travel platform.
+</p>
+
+      
+       
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+      <!-- Card -->
+      <div
+        class="group relative rounded-3xl p-10
+               bg-white/70 backdrop-blur-xl
+               border border-slate-200
+               shadow-[0_25px_60px_rgba(0,0,0,0.08)]
+               transition-all duration-500
+               hover:-translate-y-2 hover:shadow-[0_40px_90px_rgba(0,0,0,0.12)]">
+
+        <!-- accent line -->
+        <div class="absolute top-0 left-8 right-8 h-px
+                    bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+
+        <!-- inner layer -->
+        <div class="absolute inset-4 rounded-2xl bg-white/40 opacity-60"></div>
+
+        <div class="relative">
+          <p class="text-xs font-bold tracking-widest uppercase text-blue-600 mb-4">
+            Design Your Journey
+          </p>
+
+          <h3 class="text-xl font-black text-slate-900 mb-5">
+            Your trip, all in one place.
+          </h3>
+
+          <p class="text-base text-slate-600 leading-relaxed">
+            Log in to create and manage all your travel plans. From daily activities to essential notes, keep your journey on track with ease..
+          </p>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div
+        class="group relative rounded-3xl p-10
+               bg-white/70 backdrop-blur-xl
+               border border-slate-200
+               shadow-[0_25px_60px_rgba(0,0,0,0.08)]
+               transition-all duration-500
+               hover:-translate-y-2 hover:shadow-[0_40px_90px_rgba(0,0,0,0.12)]">
+
+        <div class="absolute top-0 left-8 right-8 h-px
+                    bg-gradient-to-r from-transparent via-emerald-500 to-transparent"></div>
+
+        <div class="absolute inset-4 rounded-2xl bg-white/40 opacity-60"></div>
+
+        <div class="relative">
+          <p class="text-xs font-bold tracking-widest uppercase text-emerald-600 mb-4">
+           Arrive on Time, Every Time
+          </p>
+
+          <h3 class="text-xl font-black text-slate-900 mb-5">
+            Proactive notifications for travelers
+          </h3>
+
+          <p class="text-base text-slate-600 leading-relaxed">
+           TripXto pings you with vital updates and schedule reminders, ensuring you’re always prepared for what’s next on your itinerary.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div
+        class="group relative rounded-3xl p-10
+               bg-white/70 backdrop-blur-xl
+               border border-slate-200
+               shadow-[0_25px_60px_rgba(0,0,0,0.08)]
+               transition-all duration-500
+               hover:-translate-y-2 hover:shadow-[0_40px_90px_rgba(0,0,0,0.12)]">
+
+        <div class="absolute top-0 left-8 right-8 h-px
+                    bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
+
+        <div class="absolute inset-4 rounded-2xl bg-white/40 opacity-60"></div>
+
+        <div class="relative">
+          <p class="text-xs font-bold tracking-widest uppercase text-orange-600 mb-4">
+           Pack Like a Pro
+          </p>
+
+          <h3 class="text-xl font-black text-slate-900 mb-5">
+            Custom lists for every trip
+          </h3>
+
+          <p class="text-base text-slate-600 leading-relaxed">
+            Create personalized gear lists for any destination. Stay organized by checking off items as you pack, so you never leave a favorite item behind.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!--Contact form -->
+
+<section id="contact" class="py-24 sm:py-28 lg:py-32 px-4 sm:px-6 relative overflow-visible">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 z-0"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] pointer-events-none z-10"></div>
+
+    <div class="max-w-3xl mx-auto relative z-20">
+        <div class="text-center mb-12 sm:mb-16 lg:mb-20">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                Get In Touch
+            </h2>
+            <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
+                Ready to transform your travel experience? Drop us a message.
+            </p>
+        </div>
+
+     <div class="relative">
+
+  <!-- FORM -->
+  <form id="contactForm"
+        class="max-w-xl mx-auto
+               bg-white/70 backdrop-blur-xl
+               border border-slate-200
+               rounded-2xl
+               shadow-[0_20px_50px_rgba(0,0,0,0.08)]
+               px-6 sm:px-8 py-8 sm:py-10
+               space-y-5">
+
+    <!-- Name -->
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 mb-1">Name</label>
+      <input type="text"       name="name" required
+             class="w-full h-11 px-4 rounded-xl border border-slate-200">
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 mb-1">Email</label>
+      <input type="email" name="email" required
+             class="w-full h-11 px-4 rounded-xl border border-slate-200">
+    </div>
+
+    <!-- Message -->
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 mb-1">Message</label>
+      <textarea name="message" rows="4" required
+                class="w-full px-4 py-3 rounded-xl border border-slate-200"></textarea>
+    </div>
+
+    <button type="submit"
+            class="w-full h-12 bg-blue-600 text-white rounded-xl font-bold">
+      Send Message
+    </button>
+  </form>
+
+  <!-- SUCCESS MESSAGE (MUST BE HERE, SAME WRAPPER) -->
+  <div id="formSuccess"
+       style="display:none"
+       class="max-w-xl mx-auto
+              bg-white
+              border border-slate-200
+              rounded-2xl
+              shadow-lg
+              px-6 py-10 text-center mt-6">
+
+    <h3 class="text-xl font-bold text-slate-900 mb-2">
+      Thank you!
+    </h3>
+
+    <p class="text-slate-600 text-sm">
+      We’ll contact you soon.
+    </p>
+
+    <p class="text-[11px] text-slate-500 pt-2">
+      We respect your privacy. No spam.
+    </p>
+  </div>
+
+</div>
+
+
+        <!-- Footer contact info -->
+        
+    </div>
+</section>
+
+
+
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="py-10 sm:py-12 bg-slate-950 border-t border-slate-800 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-xs sm:text-sm text-slate-500">
+        <h1 class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            TripXto
+        </h1>
+        <p>© 2026 TripXto. Built for stress-free travel.</p>
+    </div>
+</footer>
+
+<!-- Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  (function () {
+    function wireDynamicNav() {
+      const links = document.querySelectorAll('a[href="login.html"], a[href="create_trip.html"]');
+      links.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          const href = (a.getAttribute('href') || '').toLowerCase();
+          const target = href === 'create_trip.html' ? 'create' : 'login';
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ source: 'tripxto-marketing', target: target }, '*');
+            return;
+          }
+          window.location.href = href;
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wireDynamicNav);
+    } else {
+      wireDynamicNav();
+    }
+  })();
+</script>
+<script src="main.js"></script>
+
+</body>
+</html>
+            

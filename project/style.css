@@ -1,0 +1,134 @@
+body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, .heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+}
+
+/* FIX: feature card depth */
+.feature-card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* FIX: shimmer containment */
+.shimmer-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.grid-bg {
+  background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 40%),
+    radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.05), transparent 40%);
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+}
+
+.shimmer-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.feature-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.12);
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(
+    45deg,
+    #3b82f6,
+    #10b981,
+    #f59e0b,
+    #3b82f6
+  );
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: -1;
+
+  .gradient-border::before {
+    display: none !important;
+  }
+}
+
+/* MOBILE (default) */
+.text-7xl {
+  font-size: 2.5rem;
+  line-height: 1.1;
+}
+
+.contact-badge {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+
+/* styles.css */
+.contact-badge {
+  background: white;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
